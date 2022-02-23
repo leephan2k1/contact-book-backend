@@ -1,8 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const setupContactRoutes = require("./app/routes/contact.routes");
 
 const app = express();
+
+setupContactRoutes(app);
 
 //enable all CORS requests
 app.use(cors());
