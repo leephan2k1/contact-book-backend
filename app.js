@@ -2,10 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const setupContactRoutes = require("./app/routes/contact.routes");
+const { BadRequestError, errorHandler } = require("./app/error");
 
 const app = express();
-
-setupContactRoutes(app);
 
 //enable all CORS requests
 app.use(cors());
@@ -16,6 +15,16 @@ app.use(
     extended: true,
   })
 );
+
+setupContactRoutes(app);
+
+app.use((req, res, next) => {
+  return next(new BadRequestError(404, "Resource not found"));
+});
+
+app.use((err, req, res, next) => {
+  errorHandler.handleError(err, res);
+})
 
 app.get("/", (req, res, next) => {
   res.status(200).json({
