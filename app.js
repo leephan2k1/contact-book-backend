@@ -18,6 +18,13 @@ app.use(
 
 setupContactRoutes(app);
 
+app.get("/", (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    message: "Welcome to contact book application.",
+  });
+});
+
 app.use((req, res, next) => {
   return next(new BadRequestError(404, "Resource not found"));
 });
@@ -26,11 +33,5 @@ app.use((err, req, res, next) => {
   errorHandler.handleError(err, res);
 })
 
-app.get("/", (req, res, next) => {
-  res.status(200).json({
-    success: true,
-    message: "Welcome to contact book application.",
-  });
-});
 
 module.exports = app;
